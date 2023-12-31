@@ -8,7 +8,7 @@ const compression = require("compression");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     app.enableCors({ origin: "*" });
-    app.useGlobalPipes(new common_1.ValidationPipe({}));
+    app.useGlobalPipes(new common_1.ValidationPipe({ whitelist: true }));
     app.enableVersioning({ type: common_1.VersioningType.URI });
     app.use((0, helmet_1.default)());
     app.use(compression());
