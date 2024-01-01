@@ -11,15 +11,17 @@ export class AuthService {
     try {
       // generate password hash
       const hash = await argon.hash(dto.password);
+
+      // save the new user
       const user = await this.prisma.user.create({
         data: {
           email: dto.email,
           hash,
         },
       });
-      delete user.hash;
-      // save the new user
+
       // return the saved user
+      delete user.hash;
       return user;
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
@@ -27,10 +29,29 @@ export class AuthService {
           throw new ForbiddenException("Credentials taken");
         }
       }
+      throw error;
     }
   }
 
-  login() {
-    return { msg: "logged in" };
+  async login(dto: AuthDto) {
+    // find the user by email
+    const user = await this.prisma.user.findUnique({
+      where: {
+        email: dto.email,
+      },
+    });
+
+    // if the user does not exist, throw new exception
+    if (!user) throw new ForbiddenException("Credentials incorrect");
+
+    // compare password
+    const passwordMatches = await argon.verify(user.hash, dto.password);
+
+    // if password incorrect throw new exception
+    if (!passwordMatches) throw new ForbiddenException("Incorrect password");
+
+    // return user
+    delete user.hash;
+    return user;
   }
 }

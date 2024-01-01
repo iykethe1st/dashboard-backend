@@ -19,10 +19,14 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "migration:run": "npx prisma migrate dev",
-    "studio:run": "npx prisma studio"
+    "studio:run": "npx prisma studio",
+    "db:rm": "docker compose rm dev-db -s -f -v",
+    "db:create": "docker compose up dev-db -d",
+    "db:restart": "yarn db:rm && yarn db:create && sleep 1 && prisma migrate deploy"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
+    "@nestjs/config": "^3.1.1",
     "@nestjs/core": "^10.0.0",
     "@nestjs/mongoose": "^10.0.2",
     "@nestjs/platform-express": "^10.0.0",

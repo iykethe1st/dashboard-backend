@@ -36,10 +36,22 @@ let AuthService = class AuthService {
                     throw new common_1.ForbiddenException("Credentials taken");
                 }
             }
+            throw error;
         }
     }
-    login() {
-        return { msg: "logged in" };
+    async login(dto) {
+        const user = await this.prisma.user.findUnique({
+            where: {
+                email: dto.email,
+            },
+        });
+        if (!user)
+            throw new common_1.ForbiddenException("Credentials incorrect");
+        const passwordMatches = await argon.verify(user.hash, dto.password);
+        if (!passwordMatches)
+            throw new common_1.ForbiddenException("Incorrect password");
+        delete user.hash;
+        return user;
     }
 };
 exports.AuthService = AuthService;
