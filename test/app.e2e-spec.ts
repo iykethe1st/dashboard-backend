@@ -1,24 +1,142 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
-import * as request from 'supertest';
-import { AppModule } from './../src/app.module';
+import { Test } from "@nestjs/testing";
+import { AppModule } from "../src/app.module";
+import {
+  INestApplication,
+  ValidationPipe,
+  VersioningType,
+} from "@nestjs/common";
+import helmet from "helmet";
+import * as compression from "compression";
+import * as pactum from "pactum";
+import { PrismaService } from "../src/prisma/prisma.service";
+import { AuthDto } from "../src/auth/dto";
 
-describe('AppController (e2e)', () => {
+describe("App e2e", () => {
   let app: INestApplication;
+  let prisma: PrismaService;
 
-  beforeEach(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
+  beforeAll(async () => {
+    const moduleRef = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
 
-    app = moduleFixture.createNestApplication();
+    app = moduleRef.createNestApplication();
+    app.enableCors({ origin: "*" });
+    app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+    app.enableVersioning({ type: VersioningType.URI });
+    app.use(helmet());
+    app.use(compression());
     await app.init();
+    await app.listen(4400);
+    prisma = app.get(PrismaService);
+    await prisma.cleanDB();
+    pactum.request.setBaseUrl("http://localhost:4400");
+  });
+  afterAll(() => {
+    app.close();
   });
 
-  it('/ (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
+  describe("Auth", () => {
+    const dto: AuthDto = {
+      email: "ike@gmail.com",
+      password: "123",
+    };
+    describe("Signup", () => {
+      it("Should throw an error if email is empty", () => {
+        return pactum
+          .spec()
+          .post("/auth/signup")
+          .withBody({
+            password: dto.password,
+          })
+          .expectStatus(400);
+      });
+
+      it("Should throw an error if password is empty", () => {
+        return pactum
+          .spec()
+          .post("/auth/signup")
+          .withBody({
+            email: dto.email,
+          })
+          .expectStatus(400);
+      });
+
+      it("Should throw an error if email and password is empty", () => {
+        return pactum
+          .spec()
+          .post("/auth/signup")
+          .withBody({})
+          .expectStatus(400);
+      });
+
+      it("Should sign up", () => {
+        return pactum
+          .spec()
+          .post("/auth/signup")
+          .withBody(dto)
+          .expectStatus(201);
+      });
+    });
+
+    describe("Login", () => {
+      it("Should throw an error if email is empty", () => {
+        return pactum
+          .spec()
+          .post("/auth/login")
+          .withBody({
+            password: dto.password,
+          })
+          .expectStatus(400);
+      });
+
+      it("Should throw an error if password is empty", () => {
+        return pactum
+          .spec()
+          .post("/auth/login")
+          .withBody({
+            email: dto.email,
+          })
+          .expectStatus(400);
+      });
+
+      it("Should throw an error if email and password is empty", () => {
+        return pactum.spec().post("/auth/login").withBody({}).expectStatus(400);
+      });
+
+      it("Should log in", () => {
+        return pactum
+          .spec()
+          .post("/auth/login")
+          .withBody(dto)
+          .expectStatus(200)
+          .stores("userAt", "access_token");
+      });
+    });
   });
+
+  describe("User", () => {
+    describe("Get me", () => {
+      it.todo("Should get me");
+    });
+    describe("Edit user", () => {
+      it.todo("Should edit user");
+    });
+  });
+
+  describe("Order", () => {
+    describe("Create order", () => {
+      it.todo("Should create order");
+    });
+    describe("Get orders", () => {
+      it.todo("Should get orders");
+    });
+    describe("Edit order", () => {
+      it.todo("Should edit order");
+    });
+    describe("Delete order", () => {
+      it.todo("Should delete order");
+    });
+  });
+  it.todo("should pass");
 });

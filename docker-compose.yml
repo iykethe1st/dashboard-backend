@@ -13,10 +13,10 @@ services:
   test-db:
     image: postgres:16
     ports:
-      - 5433:5432
+      - 5435:5432
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: Ikebtsf9t
+      POSTGRES_PASSWORD: admin
       POSTGRES_DB: dashwashdb
     networks:
       - localhost
