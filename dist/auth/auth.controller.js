@@ -21,7 +21,6 @@ let AuthController = class AuthController {
         this.authService = authService;
     }
     signup(dto) {
-        console.log({ dto });
         return this.authService.signup(dto);
     }
     login(dto) {
@@ -37,6 +36,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "signup", null);
 __decorate([
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     (0, common_1.Post)("login"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
