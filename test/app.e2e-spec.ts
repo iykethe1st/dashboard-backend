@@ -10,6 +10,7 @@ import * as compression from "compression";
 import * as pactum from "pactum";
 import { PrismaService } from "../src/prisma/prisma.service";
 import { AuthDto } from "../src/auth/dto";
+import { EditUserDto } from "src/user/dto";
 
 describe("App e2e", () => {
   let app: INestApplication;
@@ -116,11 +117,39 @@ describe("App e2e", () => {
   });
 
   describe("User", () => {
+    const dto: EditUserDto = {
+      firstName: "Ikenna",
+      email: "iyke@gmail.com",
+    };
     describe("Get me", () => {
-      it.todo("Should get me");
+      it("Should get current user", () => {
+        return pactum
+          .spec()
+          .get("/users/me")
+          .withHeaders({
+            Authorization: `Bearer $S{userAt}`,
+          })
+          .expectStatus(200);
+      });
     });
     describe("Edit user", () => {
-      it.todo("Should edit user");
+      it("should edit user", () => {
+        const dto: EditUserDto = {
+          firstName: "Ikenna",
+          email: "iyke@gmail.com",
+        };
+        return pactum
+          .spec()
+          .patch("/users")
+          .withHeaders({
+            Authorization: `Bearer $S{userAt}`,
+          })
+          .withBody(dto)
+          .expectStatus(200);
+        // .expectBodyContains("false value");
+        // .expectBodyContains(dto.email);
+        // .inspect()
+      });
     });
   });
 
@@ -131,10 +160,14 @@ describe("App e2e", () => {
     describe("Get orders", () => {
       it.todo("Should get orders");
     });
-    describe("Edit order", () => {
+
+    describe("Get order by id", () => {
+      it.todo("Should get orders");
+    });
+    describe("Edit order by id", () => {
       it.todo("Should edit order");
     });
-    describe("Delete order", () => {
+    describe("Delete order by id", () => {
       it.todo("Should delete order");
     });
   });
