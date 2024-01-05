@@ -1,5 +1,5 @@
 import { Test } from "@nestjs/testing";
-import { AppModule } from "../src/app.module";
+
 import {
   INestApplication,
   ValidationPipe,
@@ -8,9 +8,11 @@ import {
 import helmet from "helmet";
 import * as compression from "compression";
 import * as pactum from "pactum";
-import { PrismaService } from "../src/prisma/prisma.service";
+
 import { AuthDto } from "../src/auth/dto";
 import { EditUserDto } from "src/user/dto";
+import { PrismaService } from "src/prisma/prisma.service";
+import { AppModule } from "src/app.module";
 
 describe("App e2e", () => {
   let app: INestApplication;
