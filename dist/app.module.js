@@ -17,6 +17,8 @@ const auth_service_1 = require("./auth/auth.service");
 const prisma_module_1 = require("./prisma/prisma.module");
 const jwt_1 = require("@nestjs/jwt");
 const order_controller_1 = require("./order/order.controller");
+const order_service_1 = require("./order/order.service");
+const order_module_1 = require("./order/order.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -29,9 +31,10 @@ exports.AppModule = AppModule = __decorate([
             user_module_1.UserModule,
             prisma_module_1.PrismaModule,
             jwt_1.JwtModule,
+            order_module_1.OrderModule,
         ],
         controllers: [auth_controller_1.AuthController, order_controller_1.OrderController],
-        providers: [auth_service_1.AuthService],
+        providers: [auth_service_1.AuthService, order_service_1.OrderService],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

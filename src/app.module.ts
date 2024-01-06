@@ -9,6 +9,8 @@ import { AuthService } from "./auth/auth.service";
 import { PrismaModule } from "./prisma/prisma.module";
 import { JwtModule } from "@nestjs/jwt";
 import { OrderController } from './order/order.controller';
+import { OrderService } from './order/order.service';
+import { OrderModule } from './order/order.module';
 
 @Module({
   imports: [
@@ -29,8 +31,9 @@ import { OrderController } from './order/order.controller';
     UserModule,
     PrismaModule,
     JwtModule,
+    OrderModule,
   ],
   controllers: [AuthController, OrderController],
-  providers: [AuthService],
+  providers: [AuthService, OrderService],
 })
 export class AppModule {}

@@ -11,25 +11,28 @@ datasource db {
 }
 
 model User {
-  id    Int @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  email String @unique
-  hash String
+  email     String   @unique
+  hash      String
   firstName String?
-  lastName String?
+  lastName  String?
+  Orders     Order[]
 
   @@map("users")
 }
 
 model Order {
-  id    Int @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  orderNo String?
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  orderId     String?
   orderStatus String?
-  
-
+  userId      Int
+  pickUpDate DateTime
+  dueDate     DateTime
+  user        User     @relation(fields: [userId], references: [id])
 
   @@map("orders")
 }
