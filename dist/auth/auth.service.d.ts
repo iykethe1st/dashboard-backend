@@ -13,6 +13,12 @@ export declare class AuthService {
     login(dto: AuthDto): Promise<{
         access_token: string;
     }>;
+    courierSignup(dto: AuthDto): Promise<{
+        access_token: string;
+    }>;
+    courierLogin(dto: AuthDto): Promise<{
+        access_token: string;
+    }>;
     signToken(userId: number, email: String): Promise<{
         access_token: string;
     }>;

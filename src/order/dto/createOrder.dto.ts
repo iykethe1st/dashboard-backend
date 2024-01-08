@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsObject, IsOptional, IsString } from "class-validator";
 
 export class CreateOrderDto {
   @ApiProperty({
@@ -11,4 +11,14 @@ export class CreateOrderDto {
   @IsNotEmpty()
   @IsString()
   address: string;
+
+  // @ApiProperty({
+  //   type: "object",
+  //   description: "The courier details",
+  //   default: {},
+  //   required: true,
+  // })
+  // @IsOptional()
+  // @IsObject()
+  // courier: Record<string, any>;
 }

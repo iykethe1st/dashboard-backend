@@ -59,6 +59,52 @@ export class AuthService {
     return this.signToken(user.id, user.email);
   }
 
+  async courierSignup(dto: AuthDto) {
+    try {
+      // generate password hash
+      const hash = await argon.hash(dto.password);
+
+      // save the new user
+      const courier = await this.prisma.courier.create({
+        data: {
+          email: dto.email,
+          hash,
+        },
+      });
+
+      // return the saved courier
+      return this.signToken(courier.id, courier.email);
+    } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError) {
+        if (error.code === "P2002") {
+          throw new ForbiddenException("Credentials taken");
+        }
+      }
+      throw error;
+    }
+  }
+
+  async courierLogin(dto: AuthDto) {
+    // find the user by email
+    const courier = await this.prisma.courier.findUnique({
+      where: {
+        email: dto.email,
+      },
+    });
+
+    // if the courier does not exist, throw new exception
+    if (!courier) throw new ForbiddenException("Credentials incorrect");
+
+    // compare password
+    const passwordMatches = await argon.verify(courier.hash, dto.password);
+
+    // if password incorrect throw new exception
+    if (!passwordMatches) throw new ForbiddenException("Incorrect password");
+
+    // return courier
+    return this.signToken(courier.id, courier.email);
+  }
+
   async signToken(
     userId: number,
     email: String

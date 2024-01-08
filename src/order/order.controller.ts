@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   UseGuards,
@@ -32,14 +33,17 @@ export class OrderController {
     return this.orderService.getOrderById(userId, orderId);
   }
 
-  @Post("create")
-  createOrder(@GetUser("id") userId: number, @Body() dto: CreateOrderDto) {
-    return this.orderService.createOrder(userId, dto);
+  @Post("create/:courierId")
+  createOrder(
+    @GetUser("id") userId: number,
+    @Param("courierId", ParseIntPipe) courierId: number,
+    @Body() dto: CreateOrderDto
+  ) {
+    return this.orderService.createOrder(userId, courierId, dto);
   }
 
   @Patch("edit/:orderId")
   editOrderById(
-    // @GetOrder("id") id: number,
     @GetUser("id") userId: number,
     @Param("orderId") orderId: string,
     @Body() dto: EditOrderDto

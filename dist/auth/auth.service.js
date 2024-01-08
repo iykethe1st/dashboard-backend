@@ -55,6 +55,39 @@ let AuthService = class AuthService {
             throw new common_1.ForbiddenException("Incorrect password");
         return this.signToken(user.id, user.email);
     }
+    async courierSignup(dto) {
+        try {
+            const hash = await argon.hash(dto.password);
+            const courier = await this.prisma.courier.create({
+                data: {
+                    email: dto.email,
+                    hash,
+                },
+            });
+            return this.signToken(courier.id, courier.email);
+        }
+        catch (error) {
+            if (error instanceof library_1.PrismaClientKnownRequestError) {
+                if (error.code === "P2002") {
+                    throw new common_1.ForbiddenException("Credentials taken");
+                }
+            }
+            throw error;
+        }
+    }
+    async courierLogin(dto) {
+        const courier = await this.prisma.courier.findUnique({
+            where: {
+                email: dto.email,
+            },
+        });
+        if (!courier)
+            throw new common_1.ForbiddenException("Credentials incorrect");
+        const passwordMatches = await argon.verify(courier.hash, dto.password);
+        if (!passwordMatches)
+            throw new common_1.ForbiddenException("Incorrect password");
+        return this.signToken(courier.id, courier.email);
+    }
     async signToken(userId, email) {
         const payload = {
             sub: userId,

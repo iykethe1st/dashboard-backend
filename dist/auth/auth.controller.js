@@ -26,10 +26,16 @@ let AuthController = class AuthController {
     login(dto) {
         return this.authService.login(dto);
     }
+    courierSignup(dto) {
+        return this.authService.courierSignup(dto);
+    }
+    courierLogin(dto) {
+        return this.authService.courierLogin(dto);
+    }
 };
 exports.AuthController = AuthController;
 __decorate([
-    (0, common_1.Post)("signup"),
+    (0, common_1.Post)("user/signup"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [dto_1.AuthDto]),
@@ -37,12 +43,27 @@ __decorate([
 ], AuthController.prototype, "signup", null);
 __decorate([
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
-    (0, common_1.Post)("login"),
+    (0, common_1.Post)("user/login"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [dto_1.AuthDto]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "login", null);
+__decorate([
+    (0, common_1.Post)("courier/signup"),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [dto_1.AuthDto]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "courierSignup", null);
+__decorate([
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
+    (0, common_1.Post)("courier/login"),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [dto_1.AuthDto]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "courierLogin", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)("auth"),
     __metadata("design:paramtypes", [auth_service_1.AuthService])

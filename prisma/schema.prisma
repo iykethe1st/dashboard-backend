@@ -18,22 +18,37 @@ model User {
   hash      String
   firstName String?
   lastName  String?
-  address String?
-  Orders     Order[]
-
+  address   String?
+  Orders    Order[]
   @@map("users")
 }
 
+model Courier {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  email     String   @unique
+  hash      String
+  firstName String?
+  lastName  String?
+  address   String?
+  Orders    Order[]
+  dailyOrderCount Int?
+
+  @@map("couriers")
+}
+
 model Order {
-  // id          Int      @id @default(autoincrement())
-  orderId     String  @id
+  orderId     String   @id
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   orderStatus String
   userId      Int
-  address String
+  address     String
   dueDate     DateTime
   user        User     @relation(fields: [userId], references: [id])
+  courier     Courier  @relation(fields: [courierId], references: [id])
+  courierId   Int
 
   @@map("orders")
 }

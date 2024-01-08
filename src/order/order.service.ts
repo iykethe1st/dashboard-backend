@@ -26,7 +26,7 @@ export class OrderService {
     });
   }
 
-  async createOrder(userId: number, dto: CreateOrderDto) {
+  async createOrder(userId: number, courierId: number, dto: CreateOrderDto) {
     const currentDate = new Date();
     const dueDate = new Date(currentDate);
     dueDate.setDate(currentDate.getDate() + 1);
@@ -38,6 +38,7 @@ export class OrderService {
     const newOrder = await this.prisma.order.create({
       data: {
         userId,
+        courierId,
         dueDate,
         orderId,
         orderStatus,

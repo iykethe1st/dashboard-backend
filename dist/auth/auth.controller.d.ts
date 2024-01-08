@@ -9,4 +9,10 @@ export declare class AuthController {
     login(dto: AuthDto): Promise<{
         access_token: string;
     }>;
+    courierSignup(dto: AuthDto): Promise<{
+        access_token: string;
+    }>;
+    courierLogin(dto: AuthDto): Promise<{
+        access_token: string;
+    }>;
 }

@@ -2,6 +2,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import {
   IsDateString,
   IsNotEmpty,
+  IsObject,
   IsOptional,
   IsString,
   isNotEmpty,
@@ -46,4 +47,14 @@ export class EditOrderDto {
   @IsDateString()
   @IsOptional()
   dueDate?: Date;
+
+  // @ApiProperty({
+  //   type: "object",
+  //   description: "courier details",
+  //   default: "",
+  //   required: false,
+  // })
+  // @IsObject()
+  // @IsOptional()
+  // courierDetails?: {};
 }
