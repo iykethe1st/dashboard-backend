@@ -37,7 +37,7 @@ export class OrderController {
     return this.orderService.createOrder(userId, dto);
   }
 
-  @Patch(":orderId")
+  @Patch("edit/:orderId")
   editOrderById(
     // @GetOrder("id") id: number,
     @GetUser("id") userId: number,
