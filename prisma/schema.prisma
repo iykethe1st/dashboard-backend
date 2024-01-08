@@ -18,19 +18,20 @@ model User {
   hash      String
   firstName String?
   lastName  String?
+  address String?
   Orders     Order[]
 
   @@map("users")
 }
 
 model Order {
-  id          Int      @id @default(autoincrement())
+  // id          Int      @id @default(autoincrement())
+  orderId     String  @id
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  orderId     String?
-  orderStatus String?
+  orderStatus String
   userId      Int
-  pickUpDate DateTime
+  address String
   dueDate     DateTime
   user        User     @relation(fields: [userId], references: [id])
 
