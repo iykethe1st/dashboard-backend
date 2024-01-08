@@ -1,4 +1,12 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get, UseGuards } from "@nestjs/common";
+import { JwtGuard } from "src/auth/guard";
+import { CourierService } from "./courier.service";
 
-@Controller('courier')
-export class CourierController {}
+@UseGuards(JwtGuard)
+@Controller("courier")
+export class CourierController {
+  constructor(private courierService: CourierService) {}
+
+  @Get("me")
+  getMe() {}
+}
