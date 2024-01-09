@@ -13,7 +13,6 @@ import { JwtGuard } from "src/auth/guard";
 import { OrderService } from "./order.service";
 import { GetUser } from "src/auth/decorator";
 import { CreateOrderDto, EditOrderDto } from "./dto";
-import { GetOrder } from "./decorator";
 
 @UseGuards(JwtGuard)
 @Controller("order")

@@ -2,7 +2,6 @@ import { ForbiddenException, Injectable } from "@nestjs/common";
 import { CreateOrderDto, EditOrderDto } from "./dto";
 import { PrismaService } from "src/prisma/prisma.service";
 import { generateOrderNumber } from "./utils";
-import { GetOrder } from "./decorator";
 
 @Injectable()
 export class OrderService {
