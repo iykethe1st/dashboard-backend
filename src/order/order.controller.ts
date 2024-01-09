@@ -9,12 +9,12 @@ import {
   Post,
   UseGuards,
 } from "@nestjs/common";
-import { JwtGuard } from "src/auth/user/guard";
+import { JwtUserGuard } from "src/auth/user/guard";
 import { OrderService } from "./order.service";
 import { GetUser } from "src/auth/user/decorator";
 import { CreateOrderDto, EditOrderDto } from "./dto";
 
-@UseGuards(JwtGuard)
+@UseGuards(JwtUserGuard)
 @Controller("order")
 export class OrderController {
   constructor(private orderService: OrderService) {}

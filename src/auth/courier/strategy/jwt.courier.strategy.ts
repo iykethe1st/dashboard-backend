@@ -5,7 +5,10 @@ import { ExtractJwt, Strategy } from "passport-jwt";
 import { PrismaService } from "src/prisma/prisma.service";
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy, "jwt") {
+export class JwtCourierStrategy extends PassportStrategy(
+  Strategy,
+  "courierJwt"
+) {
   constructor(
     config: ConfigService,
     private prisma: PrismaService
@@ -18,7 +21,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, "jwt") {
   }
 
   async validate(payload: { sub: number; email: string }) {
-    const user = await this.prisma.user.findUnique({
+    const user = await this.prisma.courier.findUnique({
       where: {
         id: payload.sub,
       },

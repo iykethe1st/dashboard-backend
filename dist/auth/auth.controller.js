@@ -15,7 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
-const dto_1 = require("./dto");
+const dto_1 = require("./user/dto");
+const dto_2 = require("./courier/dto");
 let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
@@ -38,7 +39,7 @@ __decorate([
     (0, common_1.Post)("user/signup"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [dto_1.AuthDto]),
+    __metadata("design:paramtypes", [dto_1.AuthUserDto]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "signup", null);
 __decorate([
@@ -46,14 +47,14 @@ __decorate([
     (0, common_1.Post)("user/login"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [dto_1.AuthDto]),
+    __metadata("design:paramtypes", [dto_1.AuthUserDto]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "login", null);
 __decorate([
     (0, common_1.Post)("courier/signup"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [dto_1.AuthDto]),
+    __metadata("design:paramtypes", [dto_2.AuthCourierDto]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "courierSignup", null);
 __decorate([
@@ -61,7 +62,7 @@ __decorate([
     (0, common_1.Post)("courier/login"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [dto_1.AuthDto]),
+    __metadata("design:paramtypes", [dto_2.AuthCourierDto]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "courierLogin", null);
 exports.AuthController = AuthController = __decorate([
