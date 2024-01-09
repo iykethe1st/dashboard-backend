@@ -1,18 +1,19 @@
 import { AuthService } from "./auth.service";
-import { AuthDto } from "./dto";
+import { AuthUserDto } from "./user/dto";
+import { AuthCourierDto } from "./courier/dto";
 export declare class AuthController {
     private authService;
     constructor(authService: AuthService);
-    signup(dto: AuthDto): Promise<{
+    signup(dto: AuthUserDto): Promise<{
         access_token: string;
     }>;
-    login(dto: AuthDto): Promise<{
+    login(dto: AuthUserDto): Promise<{
         access_token: string;
     }>;
-    courierSignup(dto: AuthDto): Promise<{
+    courierSignup(dto: AuthCourierDto): Promise<{
         access_token: string;
     }>;
-    courierLogin(dto: AuthDto): Promise<{
+    courierLogin(dto: AuthCourierDto): Promise<{
         access_token: string;
     }>;
 }

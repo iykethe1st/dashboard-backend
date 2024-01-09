@@ -7,31 +7,32 @@ import {
   Req,
 } from "@nestjs/common";
 import { AuthService } from "./auth.service";
-import { AuthDto } from "./dto";
+import { AuthUserDto } from "./user/dto";
+import { AuthCourierDto } from "./courier/dto";
 
 @Controller("auth")
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post("user/signup")
-  signup(@Body() dto: AuthDto) {
+  signup(@Body() dto: AuthUserDto) {
     return this.authService.signup(dto);
   }
 
   @HttpCode(HttpStatus.OK)
   @Post("user/login")
-  login(@Body() dto: AuthDto) {
+  login(@Body() dto: AuthUserDto) {
     return this.authService.login(dto);
   }
 
   @Post("courier/signup")
-  courierSignup(@Body() dto: AuthDto) {
+  courierSignup(@Body() dto: AuthCourierDto) {
     return this.authService.courierSignup(dto);
   }
 
   @HttpCode(HttpStatus.OK)
   @Post("courier/login")
-  courierLogin(@Body() dto: AuthDto) {
+  courierLogin(@Body() dto: AuthCourierDto) {
     return this.authService.courierLogin(dto);
   }
 }

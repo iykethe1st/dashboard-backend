@@ -1,6 +1,6 @@
 import { ForbiddenException, Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
-import { AuthDto } from "./dto";
+import { AuthUserDto } from "./user/dto";
 import * as argon from "argon2";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { JwtService } from "@nestjs/jwt";
@@ -13,7 +13,7 @@ export class AuthService {
     private jwt: JwtService,
     private config: ConfigService
   ) {}
-  async signup(dto: AuthDto) {
+  async signup(dto: AuthUserDto) {
     try {
       // generate password hash
       const hash = await argon.hash(dto.password);
@@ -38,7 +38,7 @@ export class AuthService {
     }
   }
 
-  async login(dto: AuthDto) {
+  async login(dto: AuthUserDto) {
     // find the user by email
     const user = await this.prisma.user.findUnique({
       where: {
@@ -59,7 +59,7 @@ export class AuthService {
     return this.signToken(user.id, user.email);
   }
 
-  async courierSignup(dto: AuthDto) {
+  async courierSignup(dto: AuthUserDto) {
     try {
       // generate password hash
       const hash = await argon.hash(dto.password);
@@ -84,7 +84,7 @@ export class AuthService {
     }
   }
 
-  async courierLogin(dto: AuthDto) {
+  async courierLogin(dto: AuthUserDto) {
     // find the user by email
     const courier = await this.prisma.courier.findUnique({
       where: {
@@ -116,7 +116,7 @@ export class AuthService {
 
     const jwtSecret = this.config.get("JWT_SECRET");
     const token = await this.jwt.signAsync(payload, {
-      expiresIn: "15m",
+      // expiresIn: "15m",
       secret: jwtSecret,
     });
     return {

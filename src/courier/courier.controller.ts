@@ -1,12 +1,16 @@
 import { Controller, Get, UseGuards } from "@nestjs/common";
-import { JwtGuard } from "src/auth/guard";
 import { CourierService } from "./courier.service";
+import { GetCourier } from "src/auth/courier/decorator";
+import { Courier } from "@prisma/client";
+import { JwtCourierGuard } from "src/auth/courier/guard";
 
-@UseGuards(JwtGuard)
+@UseGuards(JwtCourierGuard)
 @Controller("courier")
 export class CourierController {
   constructor(private courierService: CourierService) {}
 
   @Get("me")
-  getMe() {}
+  getMe(@GetCourier() courier: Courier) {
+    return courier;
+  }
 }
