@@ -6,6 +6,10 @@ import { EditCourierDto } from "./dto";
 export class CourierService {
   constructor(private prisma: PrismaService) {}
 
+  getMe() {
+    return {};
+  }
+
   async editCourier(courierId: number, dto: EditCourierDto) {
     const courier = await this.prisma.courier.update({
       where: {
