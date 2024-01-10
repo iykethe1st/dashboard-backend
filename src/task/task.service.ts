@@ -6,7 +6,7 @@ import { PrismaService } from "src/prisma/prisma.service";
 export class TaskService {
   constructor(private prisma: PrismaService) {}
 
-  //   This resets the daily order every morning by 5:00 AM
+  // This resets the daily order every morning by 5:00 AM
   @Cron("0 0 5 * * 1-7")
   async resetDailyOrder() {
     await this.prisma.courier.updateMany({

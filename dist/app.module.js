@@ -22,6 +22,7 @@ const order_service_1 = require("./order/order.service");
 const order_module_1 = require("./order/order.module");
 const courier_module_1 = require("./courier/courier.module");
 const task_service_1 = require("./task/task.service");
+const events_module_1 = require("./events/events.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -37,6 +38,7 @@ exports.AppModule = AppModule = __decorate([
             jwt_1.JwtModule,
             order_module_1.OrderModule,
             courier_module_1.CourierModule,
+            events_module_1.EventsModule,
         ],
         controllers: [auth_controller_1.AuthController, order_controller_1.OrderController],
         providers: [auth_service_1.AuthService, order_service_1.OrderService, task_service_1.TaskService],

@@ -13,6 +13,7 @@ import { OrderService } from "./order/order.service";
 import { OrderModule } from "./order/order.module";
 import { CourierModule } from "./courier/courier.module";
 import { TaskService } from './task/task.service';
+import { EventsModule } from './events/events.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { TaskService } from './task/task.service';
     JwtModule,
     OrderModule,
     CourierModule,
+    EventsModule,
   ],
   controllers: [AuthController, OrderController],
   providers: [AuthService, OrderService, TaskService],
