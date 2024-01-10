@@ -17,8 +17,10 @@ export class CourierService {
       },
       data: {
         ...dto,
+        dailyOrderCount: parseInt(dto.dailyOrderCount),
       },
     });
+    delete courier.hash;
     return courier;
   }
 }

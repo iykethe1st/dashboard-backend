@@ -10,12 +10,14 @@ import { JwtUserGuard } from "src/auth/user/guard";
 export class UserController {
   constructor(private userService: UserService) {}
   @Get("me")
-  getMe(@GetUser() user: User, @GetUser("email") email: string) {
+  getMe(@GetUser() user: User) {
     return user;
   }
 
   @Patch()
-  editUser(@GetUser("userId") userId: number, @Body() dto: EditUserDto) {
+  editUser(@GetUser("id") userId: number, @Body() dto: EditUserDto) {
+    console.log({ userId });
+
     this.userService.editUser(userId, dto);
   }
 }

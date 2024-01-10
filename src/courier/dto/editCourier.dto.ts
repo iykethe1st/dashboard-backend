@@ -1,5 +1,11 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsNumber, IsOptional, IsString } from "class-validator";
+import {
+  IsEmail,
+  IsNumber,
+  IsNumberString,
+  IsOptional,
+  IsString,
+} from "class-validator";
 
 export class EditCourierDto {
   @ApiProperty({
@@ -33,12 +39,12 @@ export class EditCourierDto {
   lastName?: string;
 
   @ApiProperty({
-    type: "number",
+    type: "string",
     description: "The daily courier orders so far",
     default: 0,
     required: false,
   })
-  @IsNumber()
+  @IsNumberString()
   @IsOptional()
-  dailyOrderCount?: number;
+  dailyOrderCount?: string;
 }
