@@ -3,7 +3,7 @@ import { Courier } from "@prisma/client";
 export function findCourierWithFewestOrders(couriers: Courier[]) {
   // Filter the couriers online
   const availableCouriers = couriers.filter(
-    (courier) => courier.availability === "offline"
+    (courier) => courier.availability === "online"
   );
 
   // find the courier with the fewest dailyOrderCount
