@@ -33,7 +33,8 @@ model Courier {
   lastName  String?
   address   String?
   Orders    Order[]
-  dailyOrderCount Int?
+  dailyOrderCount Int @default(0)
+  availability String @default("offline")
 
   @@map("couriers")
 }

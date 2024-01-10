@@ -1,7 +1,7 @@
 import { ForbiddenException, Injectable } from "@nestjs/common";
 import { CreateOrderDto, EditOrderDto } from "./dto";
 import { PrismaService } from "src/prisma/prisma.service";
-import { generateOrderNumber } from "./utils";
+import { findCourierWithFewestOrders, generateOrderNumber } from "./utils";
 
 @Injectable()
 export class OrderService {
@@ -25,25 +25,40 @@ export class OrderService {
     });
   }
 
-  async createOrder(userId: number, courierId: number, dto: CreateOrderDto) {
+  async createOrder(userId: number, dto: CreateOrderDto) {
     const currentDate = new Date();
     const dueDate = new Date(currentDate);
     dueDate.setDate(currentDate.getDate() + 1);
 
+    const couriers = await this.prisma.courier.findMany();
     const orderId = generateOrderNumber();
+    const availableCourier = findCourierWithFewestOrders(couriers);
+    // console.log({ availableCourier });
 
     const orderStatus = "Pending";
 
+    // create the new order
     const newOrder = await this.prisma.order.create({
       data: {
         userId,
-        courierId,
+        courierId: availableCourier.id,
         dueDate,
         orderId,
         orderStatus,
         ...dto,
       },
     });
+
+    // Update the courier's daily order count
+    await this.prisma.courier.update({
+      where: {
+        id: availableCourier.id,
+      },
+      data: {
+        dailyOrderCount: (availableCourier.dailyOrderCount += 1),
+      },
+    });
+
     return newOrder;
   }
 

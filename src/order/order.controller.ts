@@ -32,13 +32,9 @@ export class OrderController {
     return this.orderService.getOrderById(userId, orderId);
   }
 
-  @Post("create/:courierId")
-  createOrder(
-    @GetUser("id") userId: number,
-    @Param("courierId", ParseIntPipe) courierId: number,
-    @Body() dto: CreateOrderDto
-  ) {
-    return this.orderService.createOrder(userId, courierId, dto);
+  @Post("create")
+  createOrder(@GetUser("id") userId: number, @Body() dto: CreateOrderDto) {
+    return this.orderService.createOrder(userId, dto);
   }
 
   @Patch("edit/:orderId")
