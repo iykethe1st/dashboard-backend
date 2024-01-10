@@ -26,18 +26,24 @@ export class OrderService {
   }
 
   async createOrder(userId: number, dto: CreateOrderDto) {
+    // Find the available couriers
+    const couriers = await this.prisma.courier.findMany();
+    const availableCourier = findCourierWithFewestOrders(couriers);
+
+    // If there are no available couriers, return a message
+    if (!availableCourier)
+      return {
+        message:
+          "Our couriers are all busy at the time, please try again shortly",
+      };
+
+    // else, create the new order
+    const orderStatus = "Pending";
+    const orderId = generateOrderNumber();
     const currentDate = new Date();
     const dueDate = new Date(currentDate);
     dueDate.setDate(currentDate.getDate() + 1);
 
-    const couriers = await this.prisma.courier.findMany();
-    const orderId = generateOrderNumber();
-    const availableCourier = findCourierWithFewestOrders(couriers);
-    // console.log({ availableCourier });
-
-    const orderStatus = "Pending";
-
-    // create the new order
     const newOrder = await this.prisma.order.create({
       data: {
         userId,
@@ -62,12 +68,7 @@ export class OrderService {
     return newOrder;
   }
 
-  async editOrderById(
-    // @GetOrder("id") id: number,
-    userId: number,
-    orderId: string,
-    dto: EditOrderDto
-  ) {
+  async editOrderById(userId: number, orderId: string, dto: EditOrderDto) {
     const order = await this.prisma.order.update({
       where: {
         orderId,
