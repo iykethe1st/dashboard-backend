@@ -28,6 +28,8 @@ DashWash is a modern and convenient laundry service application that allows user
 ### Prerequisites
 
 - [Node.js](https://nodejs.org/) installed
+- [Nest.js](https://nestjs.com/) installed
+- [Prisma](https://prisma.io/) ORM
 - [PostgreSQL](https://www.postgresql.org/) database
 
 ### Installation
