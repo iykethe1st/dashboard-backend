@@ -47,4 +47,14 @@ export class EditCourierDto {
   @IsNumberString()
   @IsOptional()
   dailyOrderCount?: string;
+
+  @ApiProperty({
+    type: "string",
+    description: "The courier availability",
+    default: "offline",
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  availability?: string;
 }
